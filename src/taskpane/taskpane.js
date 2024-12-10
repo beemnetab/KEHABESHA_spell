@@ -259,31 +259,35 @@ function normalizeText(text) {
 
 
 async function replaceWordInDocument(oldWord, newWord) {
-    return Word.run(async (context) => {
+    await Word.run(async (context) => {
         const body = context.document.body;
 
         const normalizedOldWord = normalizeText(oldWord.trim());
         const normalizedNewWord = normalizeText(newWord.trim());
-        
+
         console.log(`Normalized Old Word: ${normalizedOldWord}`);
         console.log(`Normalized New Word: ${normalizedNewWord}`);
 
+        // Search for the old word
         const searchResults = body.search(normalizedOldWord, {
             matchCase: false,
-            matchWholeWord: true,
+            matchWholeWord: false,
         });
 
         searchResults.load("items");
         await context.sync();
-        console.log(searchResults.items);
-        
+
+        console.log(searchResults);
 
         if (searchResults.items.length === 0) {
             showNotification("Info", `"${normalizedOldWord}" not found in the document.`, true);
+            console.log("Info", `"${normalizedOldWord}" not found in the document.`);
             return;
         }
 
+        // Replace each found item with the new word
         searchResults.items.forEach((result) => {
+            // Optionally, you can highlight the found results before replacing them
             clearHighlights(result);
             result.insertText(normalizedNewWord, Word.InsertLocation.replace);
         });
@@ -292,6 +296,6 @@ async function replaceWordInDocument(oldWord, newWord) {
         showNotification("Success", `"${oldWord}" replaced with "${newWord}".`);
     }).catch((error) => {
         showNotification("Error", `Error replacing word: ${error.message}`, true);
-        console.log(error);
+        console.error(error);
     });
 }
