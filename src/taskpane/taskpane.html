@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spell Checker Add-In</title>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <script src="taskpane.js" defer></script>
+    <link rel="stylesheet" href="taskpane.css">
+    <style>
+        /* Inline CSS for Progress Bar */
+        #progress-bar {
+            display: none;
+            margin: 20px auto;
+            width: 80%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #progress-bar::after {
+            content: "";
+            display: block;
+            height: 100%;
+            width: 0;
+            background-color: #4caf50;
+            animation: progressBar 2s infinite;
+        }
+
+        @keyframes progressBar {
+            0% {
+                width: 0%;
+            }
+            50% {
+                width: 50%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        .btn {
+            cursor: pointer;
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        #taskpane-content {
+            margin-top: 20px;
+        }
+
+        .word-container {
+            margin-bottom: 10px;
+        }
+
+        .word-container span {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        select {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spell Checker</h1>
+    <div id="notification-area" style="display: none;"></div>
+    <div class="btn" id="runSpellCheck">Check Spelling</div>
+    <div id="progress-bar"></div>
+    <div id="taskpane-content"></div>
+</body>
+</html>
