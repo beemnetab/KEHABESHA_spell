@@ -197,7 +197,7 @@ async function replaceWordInDocument(oldWord, newWord) {
         const body = context.document.body;
         const searchResults = body.search(normalizeText(oldWord.trim()), {
             matchCase: false,
-            matchWholeWord: true,
+            matchWholeWord: false,
         });
         searchResults.load("items");
         await context.sync();
