@@ -129,7 +129,7 @@ function highlightMisspelledWords(misspelledWords) {
 
         for (const paragraph of paragraphs.items) {
             for (const word of misspelledWords) {
-                const searchResults = paragraph.search(word, { matchWholeWord: true });
+                const searchResults = paragraph.search(word, { matchWholeWord: false });
                 searchResults.load("items");
                 await context.sync();
 
