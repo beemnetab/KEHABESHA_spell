@@ -91,7 +91,7 @@ function highlightMisspelledWords(misspelledWords) {
         await context.sync();
         for (const paragraph of paragraphs.items) {
             for (const word of misspelledWords) {
-                const searchResults = paragraph.search(word, { matchWholeWord: true });
+                const searchResults = paragraph.search(word, { matchWholeWord: false });
                 searchResults.load("items");
                 await context.sync();
                 searchResults.items.forEach((result) => {
@@ -195,18 +195,49 @@ function normalizeText(text) {
 async function replaceWordInDocument(oldWord, newWord) {
     await Word.run(async (context) => {
         const body = context.document.body;
-        const searchResults = body.search(normalizeText(oldWord.trim()), {
+
+        const normalizedOldWord = normalizeText(oldWord.trim());
+        const normalizedNewWord = normalizeText(newWord.trim());
+
+        console.log(`Normalized Old Word: ${normalizedOldWord}`);
+        console.log(`Normalized New Word: ${normalizedNewWord}`);
+
+        // Search for the old word
+        const searchResults = body.search(normalizedOldWord, {
             matchCase: false,
-            matchWholeWord: true,
+            matchWholeWord: false,
         });
         searchResults.load("items");
         await context.sync();
+<<<<<<< HEAD
         searchResults.items.forEach((result) => {
             result.insertText(normalizeText(newWord.trim()), Word.InsertLocation.replace);
             result.font.underline = Word.UnderlineType.none;
+=======
+
+        console.log(searchResults);
+
+        if (searchResults.items.length === 0) {
+            showNotification("Info", `"${normalizedOldWord}" not found in the document.`, true);
+            console.log("Info", `"${normalizedOldWord}" not found in the document.`);
+            return;
+        }
+
+        // Replace each found item with the new word
+        searchResults.items.forEach((result) => {
+            // Optionally, you can highlight the found results before replacing them
+            clearHighlights(result);
+            result.insertText(normalizedNewWord, Word.InsertLocation.replace);
+>>>>>>> c3cc77ee8fef8c41d47bfe7754675a5973f8c37a
         });
         await context.sync();
         removeWordFromTaskpane(oldWord);
         showNotification("Success", `"${oldWord}" replaced with "${newWord}".`);
+<<<<<<< HEAD
+=======
+    }).catch((error) => {
+        showNotification("Error", `Error replacing word: ${error.message}`, true);
+        console.error(error);
+>>>>>>> c3cc77ee8fef8c41d47bfe7754675a5973f8c37a
     });
 }
