@@ -91,7 +91,7 @@ function highlightMisspelledWords(misspelledWords) {
         await context.sync();
         for (const paragraph of paragraphs.items) {
             for (const word of misspelledWords) {
-                const searchResults = paragraph.search(word, { matchWholeWord: true });
+                const searchResults = paragraph.search(word, { matchWholeWord: false });
                 searchResults.load("items");
                 await context.sync();
                 searchResults.items.forEach((result) => {
@@ -107,7 +107,7 @@ async function clearHighlights(validWords) {
     return Word.run(async (context) => {
         const body = context.document.body;
         for (const word of validWords) {
-            const searchResults = body.search(word, { matchWholeWord: true });
+            const searchResults = body.search(word, { matchWholeWord: false });
             searchResults.load("items");
             await context.sync();
             searchResults.items.forEach((result) => {
