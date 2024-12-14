@@ -64,6 +64,7 @@ async function checkSpelling(text) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ input_text: text, top_n: 5 }),
         });
+        console.log(response);
         if (!response.ok) throw new Error("Failed to fetch suggestions from the backend.");
         const data = await response.json();
         const filteredSuggestions = {};
