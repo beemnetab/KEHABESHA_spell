@@ -57,6 +57,7 @@ function filterMultiWordSuggestions(suggestions) {
 }
 
 async function checkSpelling(text) {
+    console.log(text);
     try {
         const response = await fetch("https://beemne.pythonanywhere.com/suggest", {
             method: "POST",
