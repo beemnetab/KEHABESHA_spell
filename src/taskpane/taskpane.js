@@ -58,7 +58,7 @@ function filterMultiWordSuggestions(suggestions) {
 
 async function checkSpelling(text) {
     try {
-        const response = await fetch("http://127.0.0.1:120/suggest", {
+        const response = await fetch("https://beemne.pythonanywhere.com/suggest", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ input_text: text, top_n: 5 }),
@@ -156,7 +156,7 @@ function updateTaskpane(suggestions, misspelledWords) {
 
 async function addToDictionaryHandler(word) {
     try {
-        const response = await fetch("http://127.0.0.1:120/add_word", {
+        const response = await fetch("https://beemne.pythonanywhere.com/add_word", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ new_word: word }),
