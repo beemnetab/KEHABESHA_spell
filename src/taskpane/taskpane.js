@@ -142,34 +142,13 @@ function updateTaskpane(suggestions, misspelledWords) {
             option.textContent = suggestion;
             dropdown.appendChild(option);
         });
-        const addOption = document.createElement("option");
-        addOption.value = "add_to_dictionary";
-        addOption.textContent = "Add to Dictionary";
-        dropdown.appendChild(addOption);
         dropdown.addEventListener("change", async (event) => {
             const newWord = event.target.value;
-            if (newWord === "add_to_dictionary") await addToDictionaryHandler(word);
-            else if (newWord) await replaceWordInDocument(word, newWord);
+            (newWord) await replaceWordInDocument(word, newWord);
         });
         container.appendChild(dropdown);
         taskpaneDiv.appendChild(container);
     });
-}
-
-async function addToDictionaryHandler(word) {
-    try {
-        const response = await fetch("https://beemne.pythonanywhere.com/add_word", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ new_word: word }),
-        });
-        if (!response.ok) throw new Error();
-        await clearHighlights([word]);
-        removeWordFromTaskpane(word);
-        showNotification("Success", `"${word}" added to the dictionary.`);
-    } catch {
-        showNotification("Error", "Error adding word to dictionary.", true);
-    }
 }
 
 function removeWordFromTaskpane(word) {
