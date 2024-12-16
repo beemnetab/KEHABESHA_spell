@@ -144,7 +144,7 @@ function updateTaskpane(suggestions, misspelledWords) {
         });
         dropdown.addEventListener("change", async (event) => {
             const newWord = event.target.value;
-            (newWord) await replaceWordInDocument(word, newWord);
+            await replaceWordInDocument(word, newWord);
         });
         container.appendChild(dropdown);
         taskpaneDiv.appendChild(container);
